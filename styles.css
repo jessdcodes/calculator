@@ -1,0 +1,20 @@
+body {
+    background-color: #FFE8E8;
+}
+
+.calculator {
+    display: grid;
+    width: 50%;
+    margin: 40px auto;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: minmax(90px, auto) repeat(4, 90px);
+    border: solid 1px black;
+    padding: 0;
+}
+
+.output {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+}
