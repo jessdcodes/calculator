@@ -17,15 +17,18 @@ function divide(num1, num2){
 
 function operate(operator, num1, num2){
 
+    num1 = parseFloat(num1);
+    num2 = parseFloat(num2);
     if(operator==="+"){
-        add(num1,num2); 
+        return add(num1,num2); 
     } else if(operator==="-") {
-        subtract(num1,num2);
+        return subtract(num1,num2);
     } else if(operator==="x"){
-        multiply(num1,num2);
+        return multiply(num1,num2);
     } else if(operator==="x"){
-        divide(num1,num2);
+        return divide(num1,num2);
     }
+
 }
 
 function displayOutput(text) {
@@ -49,27 +52,37 @@ function addBtnActions() {
 
     digitsBtns.forEach(btn => btn.addEventListener("click", ()=> {
         currNum = currNum + btn.textContent;
-        displayOutput(getCurrentOutput()+""+btn.textContent);
+        displayOutput(getCurrentOutput()+btn.textContent);
     }));
 
     operatorBtns.forEach(btn => btn.addEventListener("click", ()=> {
         const currOperator = btn.textContent;
-        const lastChar = getCurrentOutput().substring(-1);
+        const currOutputLength = getCurrentOutput().length;
+        const lastChar = getCurrentOutput().charAt(currOutputLength-1);
         const currOutput = getCurrentOutput();
 
         if(currOutput.trim()!==""){
-            if(currOperator==="=" && (num1.trim()!=="" && currNum.trim()!=="")){
+            if(currOperator==="=" && !isNaN(lastChar)){
+                if(isSecondNumAvail){
+                    console.log("operator="+operator+",num1:"+num1+",num2: "+currNum);
+                    const total = operate(operator, num1, currNum);
+                    num1 = total;
+                    isSecondNumAvail = false;
+                    
+                } 
+
+                displayOutput(num1);
             } else {
                 operator = currOperator;
                 if(isNaN(lastChar)){
-                    displayOutput(num1+" "+operator+" ");
+                    console.log("lastChar: "+lastChar);
+                    displayOutput(num1+operator);
                 } else { 
-                    num1 = currOutput;
-                    if(currOperator==="="){
-                        displayOutput(num1);
-                    } else {
-                        displayOutput(currOutput+" "+operator+" ");
-                    }
+                    num1 = currNum;
+                    displayOutput(currOutput+operator);
+                    isSecondNumAvail = true;
+                    currNum = "";
+                    console.log("num1 populated! "+num1);
                 }
             }
         }
