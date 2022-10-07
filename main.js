@@ -54,12 +54,22 @@ function addBtnActions() {
         const lastChar = getCurrentOutput().substring(-1);
         const currOutput = getCurrentOutput();
 
-        if(isNaN(lastChar)){
-            displayOutput(num1+" "+currOperator+" ");
-        } else { 
-            num1 = parseInt(currOutput);
-            displayOutput(currOutput+" "+currOperator+" ");
+       
+        if(currOperator==="=" && (num1.trim()!=="" && num2.trim()!=="")){
+            console.log("here inside =!");
+        } else {
+            if(isNaN(lastChar)){
+                displayOutput(num1+" "+currOperator+" ");
+            } else { 
+                num1 = currOutput;
+                if(currOperator==="="){
+                    displayOutput(num1);
+                } else {
+                    displayOutput(currOutput+" "+currOperator+" ");
+                }
+            }
         }
+        
     }));
 
 }
