@@ -69,8 +69,13 @@ function addBtnActions() {
                     num1 = total;
                     operator = "";
                     isPendingSecondNum = false;
-                } 
-                displayOutput(num1);
+                    displayOutput(num1);
+                } else {      
+                    if(num1===""){
+                        num1 = currNum;
+                    }        
+                    displayOutput(num1);
+                }
             } else {
                 operator = currOperator;
                 if(isNaN(lastChar)){
@@ -80,12 +85,9 @@ function addBtnActions() {
                     if(num1===""){
                         num1 = currNum;
                     }
-
                     displayOutput(currOutput+operator);
                     isPendingSecondNum = true;
                     currNum = "";
-                    console.log("num2 populated! ");
-                    
                 }
             }
         }
