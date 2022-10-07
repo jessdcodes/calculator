@@ -50,11 +50,25 @@ function addBtnActions() {
     const digitsBtns = Array.from(document.querySelectorAll('button[data-number]'));
     const operatorBtns = Array.from(document.querySelectorAll('button[data-operator]'));
     const clearBtn = document.querySelector(".clear");
+    const decimalBtn = document.querySelector(".decimal");
 
     let num1 = "";
     let currNum = "";
     let operator = "";
     let isPendingSecondNum = false;
+
+    decimalBtn.addEventListener("click", () => {
+        if(currNum==="") {
+            currNum = "0.";
+            displayOutput(getCurrentOutput()+currNum);
+        } else if (currNum.indexOf(".") != -1) {
+            displayOutput(getCurrentOutput());
+        }
+        else {
+            currNum = currNum + ".";
+            displayOutput(getCurrentOutput()+".");
+        }
+    });
 
     clearBtn.addEventListener("click", () => {
         clearOutput();
