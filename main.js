@@ -42,20 +42,23 @@ function addBtnActions() {
     const digitsBtns = Array.from(document.querySelectorAll('button[data-number]'));
     const operatorBtns = Array.from(document.querySelectorAll('button[data-operator]'));
 
-    let num1 = 0;
-    let num2 = 0;
+    let num1 = "";
+    let num2 = "";
     let currentOperator;
     digitsBtns.forEach(btn => btn.addEventListener("click", ()=> {
         displayOutput(getCurrentOutput()+""+btn.textContent);
     }));
 
     operatorBtns.forEach(btn => btn.addEventListener("click", ()=> {
-        if(isNaN(getCurrentOutput().substring(-1))){
-            displayOutput(num1+" "+btn.textContent+" ");
-            currentOperator = btn.textContent;
+        const currOperator = btn.textContent;
+        const lastChar = getCurrentOutput().substring(-1);
+        const currOutput = getCurrentOutput();
+
+        if(isNaN(lastChar)){
+            displayOutput(num1+" "+currOperator+" ");
         } else { 
-            num1 = parseInt(getCurrentOutput());
-            displayOutput(getCurrentOutput()+" "+btn.textContent+" ");
+            num1 = parseInt(currOutput);
+            displayOutput(currOutput+" "+currOperator+" ");
         }
     }));
 
