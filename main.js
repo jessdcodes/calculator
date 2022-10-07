@@ -67,14 +67,12 @@ function addBtnActions() {
                     console.log("operator="+operator+",num1:"+num1+",num2: "+currNum);
                     const total = operate(operator, num1, currNum);
                     num1 = total;
+                    currNum = total;
                     operator = "";
                     isPendingSecondNum = false;
                     displayOutput(num1);
                 } else {      
-                    if(num1===""){
-                        num1 = currNum;
-                    }        
-                    displayOutput(num1);
+                    displayOutput(currNum);
                 }
             } else {
                 operator = currOperator;
@@ -82,9 +80,7 @@ function addBtnActions() {
                     console.log("lastChar: "+lastChar);
                     displayOutput(num1+operator);
                 } else {
-                    if(num1===""){
-                        num1 = currNum;
-                    }
+                    num1 = currNum;
                     displayOutput(currOutput+operator);
                     isPendingSecondNum = true;
                     currNum = "";
