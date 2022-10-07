@@ -8,7 +8,7 @@ function subtract(num1, num2){
 }
 
 function multiply(num1, num2){
-    return num1 - num2;
+    return num1 * num2;
 }
 
 function divide(num1, num2){
@@ -41,14 +41,28 @@ function getCurrentOutput(){
     return output.textContent;
 }
 
+function clearOutput() {
+    const output = document.querySelector(".output");
+    output.textContent = "";
+}
+
 function addBtnActions() {
     const digitsBtns = Array.from(document.querySelectorAll('button[data-number]'));
     const operatorBtns = Array.from(document.querySelectorAll('button[data-operator]'));
+    const clearBtn = document.querySelector(".clear");
 
     let num1 = "";
     let currNum = "";
     let operator = "";
     let isPendingSecondNum = false;
+
+    clearBtn.addEventListener("click", () => {
+        clearOutput();
+        num1 = "";
+        currNum = "";
+        operator = "";
+        isPendingSecondNum = false;
+    });
 
     digitsBtns.forEach(btn => btn.addEventListener("click", ()=> {
         currNum = currNum + btn.textContent;
