@@ -7,7 +7,7 @@ body {
     width: 50%;
     margin: 40px auto;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: minmax(90px, auto) repeat(4, 90px);
+    grid-template-rows: minmax(90px, auto) repeat(5, 90px);
     border: solid 1px black;
     padding: 0;
 }
@@ -17,4 +17,8 @@ body {
     display: flex;
     align-items: flex-end;
     justify-content: space-around;
+}
+
+#equal {
+    grid-column-start: span 2;
 }
