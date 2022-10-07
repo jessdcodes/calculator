@@ -48,7 +48,7 @@ function addBtnActions() {
     let num1 = "";
     let currNum = "";
     let operator = "";
-    let isSecondNumAvail = false;
+    let isPendingSecondNum = false;
 
     digitsBtns.forEach(btn => btn.addEventListener("click", ()=> {
         currNum = currNum + btn.textContent;
@@ -57,32 +57,35 @@ function addBtnActions() {
 
     operatorBtns.forEach(btn => btn.addEventListener("click", ()=> {
         const currOperator = btn.textContent;
-        const currOutputLength = getCurrentOutput().length;
-        const lastChar = getCurrentOutput().charAt(currOutputLength-1);
         const currOutput = getCurrentOutput();
+        const currOutputLength = currOutput.length;
+        const lastChar = currOutput.charAt(currOutputLength-1);
 
         if(currOutput.trim()!==""){
             if(currOperator==="=" && !isNaN(lastChar)){
-                if(isSecondNumAvail){
+                if(isPendingSecondNum){
                     console.log("operator="+operator+",num1:"+num1+",num2: "+currNum);
                     const total = operate(operator, num1, currNum);
                     num1 = total;
-                    isSecondNumAvail = false;
-                    
+                    operator = "";
+                    isPendingSecondNum = false;
                 } 
-
                 displayOutput(num1);
             } else {
                 operator = currOperator;
                 if(isNaN(lastChar)){
                     console.log("lastChar: "+lastChar);
                     displayOutput(num1+operator);
-                } else { 
-                    num1 = currNum;
+                } else {
+                    if(num1===""){
+                        num1 = currNum;
+                    }
+
                     displayOutput(currOutput+operator);
-                    isSecondNumAvail = true;
+                    isPendingSecondNum = true;
                     currNum = "";
-                    console.log("num1 populated! "+num1);
+                    console.log("num2 populated! ");
+                    
                 }
             }
         }
