@@ -43,9 +43,12 @@ function addBtnActions() {
     const operatorBtns = Array.from(document.querySelectorAll('button[data-operator]'));
 
     let num1 = "";
-    let num2 = "";
-    let currentOperator;
+    let currNum = "";
+    let operator = "";
+    let isSecondNumAvail = false;
+
     digitsBtns.forEach(btn => btn.addEventListener("click", ()=> {
+        currNum = currNum + btn.textContent;
         displayOutput(getCurrentOutput()+""+btn.textContent);
     }));
 
@@ -54,22 +57,22 @@ function addBtnActions() {
         const lastChar = getCurrentOutput().substring(-1);
         const currOutput = getCurrentOutput();
 
-       
-        if(currOperator==="=" && (num1.trim()!=="" && num2.trim()!=="")){
-            console.log("here inside =!");
-        } else {
-            if(isNaN(lastChar)){
-                displayOutput(num1+" "+currOperator+" ");
-            } else { 
-                num1 = currOutput;
-                if(currOperator==="="){
-                    displayOutput(num1);
-                } else {
-                    displayOutput(currOutput+" "+currOperator+" ");
+        if(currOutput.trim()!==""){
+            if(currOperator==="=" && (num1.trim()!=="" && currNum.trim()!=="")){
+            } else {
+                operator = currOperator;
+                if(isNaN(lastChar)){
+                    displayOutput(num1+" "+operator+" ");
+                } else { 
+                    num1 = currOutput;
+                    if(currOperator==="="){
+                        displayOutput(num1);
+                    } else {
+                        displayOutput(currOutput+" "+operator+" ");
+                    }
                 }
             }
         }
-        
     }));
 
 }
