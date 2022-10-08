@@ -27,14 +27,16 @@ function operate(operator, num1, num2){
 
     num1 = parseFloat(num1);
     num2 = parseFloat(num2);
-    if(operator==="+"){
-        return add(num1,num2); 
-    } else if(operator==="-") {
-        return subtract(num1,num2);
-    } else if(operator==="x"){
-        return multiply(num1,num2);
-    } else if(operator==="x"){
-        return divide(num1,num2);
+
+    switch(operator) {
+        case "+":
+            return add(num1,num2); 
+        case "-":
+            return subtract(num1,num2); 
+        case "x":
+            return multiply(num1,num2);
+        case "÷":
+            return divide(num1,num2);
     }
 
 }
