@@ -1,3 +1,11 @@
+let calculator = {
+    num1: "",
+    currNum: "",
+    operator: "",
+    isPendingSecondNum: false
+}
+
+clickBtns();
 
 function add(num1, num2){
     return num1 + num2;
@@ -46,40 +54,40 @@ function clearOutput() {
     output.textContent = "";
 }
 
-function addBtnActions() {
+function handleOperator(){
+
+}
+
+function storeNumber(){
+
+}
+
+function clickBtns() {
     const digitsBtns = Array.from(document.querySelectorAll('button[data-number]'));
     const operatorBtns = Array.from(document.querySelectorAll('button[data-operator]'));
     const clearBtn = document.querySelector(".clear");
     const decimalBtn = document.querySelector(".decimal");
 
-    let num1 = "";
-    let currNum = "";
-    let operator = "";
-    let isPendingSecondNum = false;
-
     decimalBtn.addEventListener("click", () => {
-        if(currNum==="") {
-            currNum = "0.";
-            displayOutput(getCurrentOutput()+currNum);
-        } else if (currNum.indexOf(".") != -1) {
-            displayOutput(getCurrentOutput());
-        }
-        else {
-            currNum = currNum + ".";
+        if(calculator.currNum==="") {
+            calculator.currNum = "0.";
+            displayOutput(getCurrentOutput()+calculator.currNum);
+        } else if ((calculator.currNum).indexOf(".") == -1) {
+            calculator.currNum = calculator.currNum + ".";
             displayOutput(getCurrentOutput()+".");
         }
     });
 
     clearBtn.addEventListener("click", () => {
         clearOutput();
-        num1 = "";
-        currNum = "";
-        operator = "";
-        isPendingSecondNum = false;
+        calculator.num1 = "";
+        calculator.currNum = "";
+        calculator.operator = "";
+        calculator.isPendingSecondNum = false;
     });
 
     digitsBtns.forEach(btn => btn.addEventListener("click", ()=> {
-        currNum = currNum + btn.textContent;
+        calculator.currNum = calculator.currNum + btn.textContent;
         displayOutput(getCurrentOutput()+btn.textContent);
     }));
 
@@ -91,32 +99,30 @@ function addBtnActions() {
 
         if(currOutput.trim()!==""){
             if(currOperator==="=" && !isNaN(lastChar)){
-                if(isPendingSecondNum){
-                    console.log("operator="+operator+",num1:"+num1+",num2: "+currNum);
-                    const total = operate(operator, num1, currNum);
-                    num1 = total;
-                    currNum = total;
-                    operator = "";
-                    isPendingSecondNum = false;
-                    displayOutput(num1);
+                if(calculator.isPendingSecondNum){
+                    console.log("calculator.operator="+calculator.operator+",calculator.num1:"+calculator.num1+",num2: "+calculator.currNum);
+                    const total = operate(calculator.operator, calculator.num1, calculator.currNum);
+                    calculator.num1 = total;
+                    calculator.currNum = total;
+                    calculator.operator = "";
+                    calculator.isPendingSecondNum = false;
+                    displayOutput(calculator.num1);
                 } else {      
-                    displayOutput(currNum);
+                    displayOutput(calculator.currNum);
                 }
             } else {
-                operator = currOperator;
+                calculator.operator = currOperator;
                 if(isNaN(lastChar)){
                     console.log("lastChar: "+lastChar);
-                    displayOutput(num1+operator);
+                    displayOutput(calculator.num1+calculator.operator);
                 } else {
-                    num1 = currNum;
-                    displayOutput(currOutput+operator);
-                    isPendingSecondNum = true;
-                    currNum = "";
+                    calculator.num1 = calculator.currNum;
+                    displayOutput(currOutput+calculator.operator);
+                    calculator.isPendingSecondNum = true;
+                    calculator.currNum = "";
                 }
             }
         }
     }));
 
 }
-
-addBtnActions();
