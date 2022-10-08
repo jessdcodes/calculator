@@ -57,6 +57,7 @@ function clearOutput() {
 }
 
 function appendDecimal() {
+    console.log("calculator.currNum: "+calculator.currNum);
     if(calculator.currNum==="") {
         calculator.currNum = "0.";
         displayOutput(getCurrentOutput()+calculator.currNum);
@@ -79,7 +80,7 @@ function handleOperator(e){
                 const total = operate(calculator.operator, calculator.num1, calculator.currNum);
                 calculator = {
                     num1: total,
-                    currNum: total,
+                    currNum: total.toString(),
                     operator: "",
                     isPendingSecondNum: false
                 }
