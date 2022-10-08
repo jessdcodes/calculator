@@ -64,12 +64,45 @@ function appendDecimal() {
     }
 }
 
-function handleOperator(){
+function handleOperator(e){
+    const currOperator = this.textContent;
+    const currOutput = getCurrentOutput();
+    const currOutputLength = currOutput.length;
+    const lastChar = currOutput.charAt(currOutputLength-1);
 
+    if(currOutput.trim()!==""){
+        if(currOperator==="=" && !isNaN(lastChar)){
+            if(calculator.isPendingSecondNum){
+                console.log("calculator.operator="+calculator.operator+",calculator.num1:"+calculator.num1+",num2: "+calculator.currNum);
+                const total = operate(calculator.operator, calculator.num1, calculator.currNum);
+                calculator = {
+                    num1: total,
+                    currNum: total,
+                    operator: "",
+                    isPendingSecondNum: false
+                }
+                displayOutput(calculator.num1);
+            } else {      
+                displayOutput(calculator.currNum);
+            }
+        } else {
+            calculator.operator = currOperator;
+            if(isNaN(lastChar)){
+                console.log("lastChar: "+lastChar);
+                displayOutput(calculator.num1+calculator.operator);
+            } else {
+                calculator.num1 = calculator.currNum;
+                calculator.isPendingSecondNum = true;
+                calculator.currNum = "";
+                displayOutput(currOutput+calculator.operator);
+            }
+        }
+    }
 }
 
-function storeNumber(){
-
+function storeNumber(e){
+    calculator.currNum = calculator.currNum + this.textContent;
+    displayOutput(getCurrentOutput()+this.textContent);
 }
 
 function resetValues(){
@@ -94,43 +127,8 @@ function clickBtns() {
         resetValues();
     });
 
-    digitsBtns.forEach(btn => btn.addEventListener("click", ()=> {
-        calculator.currNum = calculator.currNum + btn.textContent;
-        displayOutput(getCurrentOutput()+btn.textContent);
-    }));
+    digitsBtns.forEach(btn => btn.addEventListener("click", storeNumber));
 
-    operatorBtns.forEach(btn => btn.addEventListener("click", ()=> {
-        const currOperator = btn.textContent;
-        const currOutput = getCurrentOutput();
-        const currOutputLength = currOutput.length;
-        const lastChar = currOutput.charAt(currOutputLength-1);
-
-        if(currOutput.trim()!==""){
-            if(currOperator==="=" && !isNaN(lastChar)){
-                if(calculator.isPendingSecondNum){
-                    console.log("calculator.operator="+calculator.operator+",calculator.num1:"+calculator.num1+",num2: "+calculator.currNum);
-                    const total = operate(calculator.operator, calculator.num1, calculator.currNum);
-                    calculator.num1 = total;
-                    calculator.currNum = total;
-                    calculator.operator = "";
-                    calculator.isPendingSecondNum = false;
-                    displayOutput(calculator.num1);
-                } else {      
-                    displayOutput(calculator.currNum);
-                }
-            } else {
-                calculator.operator = currOperator;
-                if(isNaN(lastChar)){
-                    console.log("lastChar: "+lastChar);
-                    displayOutput(calculator.num1+calculator.operator);
-                } else {
-                    calculator.num1 = calculator.currNum;
-                    displayOutput(currOutput+calculator.operator);
-                    calculator.isPendingSecondNum = true;
-                    calculator.currNum = "";
-                }
-            }
-        }
-    }));
+    operatorBtns.forEach(btn => btn.addEventListener("click", handleOperator));
 
 }
