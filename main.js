@@ -54,6 +54,16 @@ function clearOutput() {
     output.textContent = "";
 }
 
+function appendDecimal() {
+    if(calculator.currNum==="") {
+        calculator.currNum = "0.";
+        displayOutput(getCurrentOutput()+calculator.currNum);
+    } else if ((calculator.currNum).indexOf(".") == -1) {
+        calculator.currNum = calculator.currNum + ".";
+        displayOutput(getCurrentOutput()+".");
+    }
+}
+
 function handleOperator(){
 
 }
@@ -62,28 +72,26 @@ function storeNumber(){
 
 }
 
+function resetValues(){
+    calculator = {
+        num1: "",
+        currNum: "",
+        operator: "",
+        isPendingSecondNum: false
+    }
+}
+
 function clickBtns() {
     const digitsBtns = Array.from(document.querySelectorAll('button[data-number]'));
     const operatorBtns = Array.from(document.querySelectorAll('button[data-operator]'));
     const clearBtn = document.querySelector(".clear");
     const decimalBtn = document.querySelector(".decimal");
 
-    decimalBtn.addEventListener("click", () => {
-        if(calculator.currNum==="") {
-            calculator.currNum = "0.";
-            displayOutput(getCurrentOutput()+calculator.currNum);
-        } else if ((calculator.currNum).indexOf(".") == -1) {
-            calculator.currNum = calculator.currNum + ".";
-            displayOutput(getCurrentOutput()+".");
-        }
-    });
+    decimalBtn.addEventListener("click", appendDecimal);
 
     clearBtn.addEventListener("click", () => {
         clearOutput();
-        calculator.num1 = "";
-        calculator.currNum = "";
-        calculator.operator = "";
-        calculator.isPendingSecondNum = false;
+        resetValues();
     });
 
     digitsBtns.forEach(btn => btn.addEventListener("click", ()=> {
