@@ -80,24 +80,35 @@ function handleOperator(e){
                 const total = operate(calculator.operator, calculator.num1, calculator.currNum);
                 calculator = {
                     num1: total,
-                    currNum: total.toString(),
+                    currNum: total,
                     operator: "",
                     isPendingSecondNum: false
                 }
                 displayOutput(calculator.num1);
             } else {      
+                // For scenario when equal is selected and there is only 1 number provided (e.g 58=)
                 displayOutput(calculator.currNum);
             }
         } else {
             calculator.operator = currOperator;
             if(isNaN(lastChar)){
-                console.log("lastChar: "+lastChar);
-                displayOutput(calculator.num1+calculator.operator);
+                displayOutput(calculator.num1+calculator.operator); 
             } else {
-                calculator.num1 = calculator.currNum;
-                calculator.isPendingSecondNum = true;
+                if(calculator.isPendingSecondNum){
+                    const total = operate(calculator.operator, calculator.num1, calculator.currNum);
+                    calculator = {
+                        num1: total,
+                        currNum: total,
+                        operator: currOperator,
+                        isPendingSecondNum: true
+                    }
+                    displayOutput(calculator.num1+calculator.operator); 
+                } else {
+                    calculator.num1 = calculator.currNum;
+                    calculator.isPendingSecondNum = true;
+                    displayOutput(currOutput+calculator.operator);
+                }
                 calculator.currNum = "";
-                displayOutput(currOutput+calculator.operator);
             }
         }
     }
