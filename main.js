@@ -41,6 +41,26 @@ function operate(operator, num1, num2){
 
 }
 
+function calculateTotalForEqual(){
+    const total = operate(calculator.operator, calculator.num1, calculator.currNum);
+    calculator = {
+        num1: total,
+        currNum: total.toString(),
+        operator: "",
+        isPendingSecondNum: false
+    }
+}
+
+function calculateTotalForOperator(){
+    const total = operate(calculator.operator, calculator.num1, calculator.currNum);
+    calculator = {
+        num1: total,
+        currNum: total.toString(),
+        operator: calculator.operator,
+        isPendingSecondNum: true
+    }
+}
+
 function displayOutput(text) {
     const output = document.querySelector(".output");
     output.textContent = text;
@@ -76,14 +96,7 @@ function handleOperator(e){
     if(currOutput.trim()!==""){
         if(currOperator==="=" && !isNaN(lastChar)){
             if(calculator.isPendingSecondNum){
-                console.log("calculator.operator="+calculator.operator+",calculator.num1:"+calculator.num1+",num2: "+calculator.currNum);
-                const total = operate(calculator.operator, calculator.num1, calculator.currNum);
-                calculator = {
-                    num1: total,
-                    currNum: total.toString(),
-                    operator: "",
-                    isPendingSecondNum: false
-                }
+                calculateTotalForEqual();
             } 
             displayOutput(calculator.currNum);
         } else if(currOperator==="=" && isNaN(lastChar)){
@@ -94,13 +107,7 @@ function handleOperator(e){
                 displayOutput(calculator.num1+calculator.operator); 
             } else {
                 if(calculator.isPendingSecondNum){
-                    const total = operate(calculator.operator, calculator.num1, calculator.currNum);
-                    calculator = {
-                        num1: total,
-                        currNum: total.toString(),
-                        operator: currOperator,
-                        isPendingSecondNum: true
-                    }
+                    calculateTotalForOperator();
                     displayOutput(calculator.num1+calculator.operator); 
                 } else {
                     calculator.num1 = calculator.currNum;
