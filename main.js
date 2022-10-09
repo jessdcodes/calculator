@@ -80,7 +80,7 @@ function handleOperator(e){
                 const total = operate(calculator.operator, calculator.num1, calculator.currNum);
                 calculator = {
                     num1: total,
-                    currNum: total,
+                    currNum: total.toString(),
                     operator: "",
                     isPendingSecondNum: false
                 }
@@ -98,7 +98,7 @@ function handleOperator(e){
                     const total = operate(calculator.operator, calculator.num1, calculator.currNum);
                     calculator = {
                         num1: total,
-                        currNum: total,
+                        currNum: total.toString(),
                         operator: currOperator,
                         isPendingSecondNum: true
                     }
