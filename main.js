@@ -84,11 +84,10 @@ function handleOperator(e){
                     operator: "",
                     isPendingSecondNum: false
                 }
-                displayOutput(calculator.num1);
-            } else {      
-                // For scenario when equal is selected and there is only 1 number provided (e.g 58=)
-                displayOutput(calculator.currNum);
-            }
+            } 
+            displayOutput(calculator.currNum);
+        } else if(currOperator==="=" && isNaN(lastChar)){
+            displayOutput(calculator.num1+calculator.operator); 
         } else {
             calculator.operator = currOperator;
             if(isNaN(lastChar)){
