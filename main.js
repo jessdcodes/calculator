@@ -134,21 +134,43 @@ function resetValues(){
     }
 }
 
+function removeLastDigit() {
+    const currNumLen = calculator.currNum.length;
+       
+    if(currNumLen <= 1){
+        calculator.currNum = "";
+    } else {
+        calculator.currNum = calculator.currNum.substring(0, currNumLen-1);
+    }
+}
+
+function deleteCurrNumber(){
+    const currOutput = getCurrentOutput();
+    const currOutputLength = currOutput.length;
+    const lastChar = currOutput.charAt(currOutputLength-1);
+
+    if(!calculator.isPendingSecondNum && !isNaN(lastChar)){
+        removeLastDigit(); 
+        displayOutput(calculator.currNum);
+    } else if(calculator.isPendingSecondNum && !isNaN(lastChar)) {
+        removeLastDigit();
+        displayOutput(calculator.num1+calculator.operator+calculator.currNum);
+    }
+}
+
 function clickBtns() {
     const digitsBtns = Array.from(document.querySelectorAll('button[data-number]'));
     const operatorBtns = Array.from(document.querySelectorAll('button[data-operator]'));
     const clearBtn = document.querySelector(".clear");
+    const deleteBtn = document.querySelector(".delete");
     const decimalBtn = document.querySelector(".decimal");
 
-    decimalBtn.addEventListener("click", appendDecimal);
-
+    digitsBtns.forEach(btn => btn.addEventListener("click", storeNumber));
+    operatorBtns.forEach(btn => btn.addEventListener("click", handleOperator));
     clearBtn.addEventListener("click", () => {
         clearOutput();
         resetValues();
     });
-
-    digitsBtns.forEach(btn => btn.addEventListener("click", storeNumber));
-
-    operatorBtns.forEach(btn => btn.addEventListener("click", handleOperator));
-
+    deleteBtn.addEventListener("click", deleteCurrNumber);
+    decimalBtn.addEventListener("click", appendDecimal);
 }
