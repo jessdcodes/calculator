@@ -151,13 +151,16 @@ function deleteCurrNumber(){
     const currOutputLength = currOutput.length;
     const lastChar = currOutput.charAt(currOutputLength-1);
 
-    if(!calculator.isPendingSecondNum && !isNaN(lastChar)){
-        removeLastDigit(); 
-        displayOutput(calculator.currNum);
-    } else if(calculator.isPendingSecondNum && !isNaN(lastChar)) {
-        removeLastDigit();
-        displayOutput(calculator.num1+calculator.operator+calculator.currNum);
+    if((!isNaN(lastChar) || lastChar==".")) {
+        if(!calculator.isPendingSecondNum){
+            removeLastDigit(); 
+            displayOutput(calculator.currNum);
+        } else if(calculator.isPendingSecondNum) {
+            removeLastDigit();
+            displayOutput(calculator.num1+calculator.operator+calculator.currNum);
+        }
     }
+    
 }
 
 function clickBtns() {
