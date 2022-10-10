@@ -42,7 +42,8 @@ function operate(operator, num1, num2){
 }
 
 function calculateTotalForEqual(){
-    const total = operate(calculator.operator, calculator.num1, calculator.currNum);
+    let total = operate(calculator.operator, calculator.num1, calculator.currNum);
+    total = Number((total).toFixed(10));
     calculator = {
         num1: total,
         currNum: total.toString(),
@@ -52,7 +53,8 @@ function calculateTotalForEqual(){
 }
 
 function calculateTotalForOperator(){
-    const total = operate(calculator.operator, calculator.num1, calculator.currNum);
+    let total = operate(calculator.operator, calculator.num1, calculator.currNum);
+    total = Number((total).toFixed(10));
     calculator = {
         num1: total,
         currNum: total.toString(),
