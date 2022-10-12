@@ -63,28 +63,42 @@ function calculateTotalForOperator(){
     }
 }
 
-function displayOutput(text) {
-    const output = document.querySelector(".output");
-    output.textContent = text;
+function displayOutput(text, textLoc) {
+    const upperOutput = document.querySelector(".upper-output");
+    const lowerOutput = document.querySelector(".lower-output");
+
+    
+    if(textLoc==="upper") {
+        console.log("upper - inside displayOutput. text: "+text);
+        upperOutput.textContent = text;
+    } else {
+        console.log("lower - inside displayOutput. text: "+text);
+        lowerOutput.textContent = text;
+    }
 }
 
 function getCurrentOutput(){
-    const output = document.querySelector(".output");
-    return output.textContent;
+    const upperOutput = document.querySelector(".upper-output");
+    const lowerOutput = document.querySelector(".lower-output");
+
+    return upperOutput.textContent+lowerOutput.textContent;
 }
 
 function clearOutput() {
-    const output = document.querySelector(".output");
-    output.textContent = "";
+    const upperOutput = document.querySelector(".upper-output");
+    const lowerOutput = document.querySelector(".lower-output");
+
+    lowerOutput.textContent = "";
+    upperOutput.textContent = "";
 }
 
 function appendDecimal() {
     if(calculator.currNum==="") {
         calculator.currNum = "0.";
-        displayOutput(getCurrentOutput()+calculator.currNum);
+        displayOutput(getCurrentOutput()+calculator.currNum, "lower");
     }else if (((calculator.currNum).indexOf(".") == -1) || calculator.currNum==="0") {
         calculator.currNum = calculator.currNum + ".";
-        displayOutput(getCurrentOutput()+".");
+        displayOutput(getCurrentOutput()+".", "lower");
     }
 }
 
@@ -99,27 +113,21 @@ function handleOperator(e){
         if(calculator.isPendingSecondNum){
             calculateTotalForEqual();
         } 
-        displayOutput(calculator.currNum);
+        displayOutput(calculator.currNum, "lower");
     } else if(currOperator==="=" && isNaN(lastChar)){
-        displayOutput(calculator.num1+calculator.operator); 
-            displayOutput(calculator.num1+calculator.operator); 
         displayOutput(calculator.num1+calculator.operator); 
     } else {
         calculator.operator = currOperator;
         if(isNaN(lastChar)){
-            displayOutput(calculator.num1+calculator.operator); 
-                displayOutput(calculator.num1+calculator.operator); 
-            displayOutput(calculator.num1+calculator.operator); 
+            displayOutput(calculator.num1+calculator.operator, "upper"); 
         } else {
             if(calculator.isPendingSecondNum){
                 calculateTotalForOperator();
-                displayOutput(calculator.num1+calculator.operator); 
-                    displayOutput(calculator.num1+calculator.operator); 
-                displayOutput(calculator.num1+calculator.operator); 
+                displayOutput(calculator.num1+calculator.operator, "upper"); 
             } else {
                 calculator.num1 = calculator.currNum;
                 calculator.isPendingSecondNum = true;
-                displayOutput(currOutput+calculator.operator);
+                displayOutput(currOutput+calculator.operator, "upper");
             }
             calculator.currNum = "";
         }
@@ -130,10 +138,10 @@ function handleOperator(e){
 function storeNumber(e){
     if(getCurrentOutput()==='0'){
         calculator.currNum = this.textContent;
-        displayOutput(this.textContent);
+        displayOutput(this.textContent, "lower");
     } else {
         calculator.currNum = calculator.currNum + this.textContent;
-        displayOutput(getCurrentOutput()+this.textContent);
+        displayOutput(calculator.currNum, "lower");
     }
     
    
@@ -167,10 +175,10 @@ function deleteCurrNumber(){
     if((!isNaN(lastChar) || lastChar==".")) {
         if(!calculator.isPendingSecondNum){
             removeLastDigit(); 
-            displayOutput(calculator.currNum);
+            displayOutput(calculator.currNum, "lower");
         } else if(calculator.isPendingSecondNum) {
             removeLastDigit();
-            displayOutput(calculator.num1+calculator.operator+calculator.currNum);
+            displayOutput(calculator.num1+calculator.operator+calculator.currNum, "lower");
         }
     }
     
