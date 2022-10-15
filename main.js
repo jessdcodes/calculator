@@ -43,6 +43,7 @@ function operate(operator, num1, num2){
 
 function calculateTotalForEqual(){
     let total = operate(calculator.operator, calculator.num1, calculator.currNum);
+    displayOutput(calculator.num1+calculator.operator+calculator.currNum, "upper");
     total = Number((total).toFixed(10));
     calculator = {
         num1: total,
@@ -98,8 +99,13 @@ function appendDecimal() {
         displayOutput(getCurrentOutput()+calculator.currNum, "lower");
     }else if (((calculator.currNum).indexOf(".") == -1) || calculator.currNum==="0") {
         calculator.currNum = calculator.currNum + ".";
-        displayOutput(getCurrentOutput()+".", "lower");
+        displayOutput(calculator.currNum, "lower");
     }
+}
+
+function getLastChar(str) {
+    const strLength = str.length;
+    return str.charAt(strLength-1);
 }
 
 function handleOperator(e){
@@ -107,7 +113,6 @@ function handleOperator(e){
     const currOutput = getCurrentOutput();
     const currOutputLength = currOutput.length;
     const lastChar = currOutput.charAt(currOutputLength-1);
-
     
     if(currOperator==="=" && !isNaN(lastChar)){
         if(calculator.isPendingSecondNum){
@@ -136,7 +141,7 @@ function handleOperator(e){
 }
 
 function storeNumber(e){
-    if(getCurrentOutput()==='0'){
+    if(getLastChar(getCurrentOutput())==='0'){
         calculator.currNum = this.textContent;
         displayOutput(this.textContent, "lower");
     } else {
@@ -175,11 +180,10 @@ function deleteCurrNumber(){
     if((!isNaN(lastChar) || lastChar==".")) {
         if(!calculator.isPendingSecondNum){
             removeLastDigit(); 
-            displayOutput(calculator.currNum, "lower");
         } else if(calculator.isPendingSecondNum) {
             removeLastDigit();
-            displayOutput(calculator.num1+calculator.operator+calculator.currNum, "lower");
         }
+        displayOutput(calculator.currNum, "lower");
     }
     
 }
