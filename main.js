@@ -103,16 +103,19 @@ function displayOutput(text, textLoc) {
 }
 
 function getCurrentOutput(){
-    const upperOutput = document.querySelector(".upper-output");
-    const lowerOutput = document.querySelector(".lower-output");
-
-    return upperOutput.textContent+lowerOutput.textContent;
+    return getUpperOutput()+getLowerOutput();
 }
 
 function getUpperOutput(){
     const upperOutput = document.querySelector(".upper-output");
     
     return upperOutput.textContent;
+}
+
+function getLowerOutput(){
+    const lowerOutput = document.querySelector(".lower-output");
+    
+    return lowerOutput.textContent;
 }
 
 function clearOutput() {
@@ -176,7 +179,7 @@ function storeNumber(e){
 }
 
 function resetValues(){
-    setCalc(null, "0", "", false);
+    setCalc(null, "", "", false);
 }
 
 function removeLastDigit() {
