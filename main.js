@@ -65,13 +65,16 @@ function calculateTotal(operator) {
         if(operator==="="){
             displayOutput(calculator.num1+calculator.operator+calculator.currNum+"=", "upper");
             setCalc(total, total.toString(), "", false);
+            displayOutput(calculator.currNum, "lower");
         } else {
             setCalc(total, total.toString(), calculator.operator, true);
+            displayOutput(calculator.num1+calculator.operator, "upper"); 
+            displayOutput(calculator.num1, "lower");
         }
-
-        return "SUCCESS";
-    } 
-    return "ERROR";
+    } else {
+        resetValues();
+        displayError();
+    }
 }
 
 function setCalc(num1, currNum, operator, isPendingSecondNum) {
@@ -83,10 +86,14 @@ function setCalc(num1, currNum, operator, isPendingSecondNum) {
     }
 }
 
+function displayError() {
+    displayOutput("", "upper");
+    displayOutput("ERROR", "lower");
+}
+
 function displayOutput(text, textLoc) {
     const upperOutput = document.querySelector(".upper-output");
     const lowerOutput = document.querySelector(".lower-output");
-
     
     if(textLoc==="upper") {
         upperOutput.textContent = text;
@@ -139,12 +146,7 @@ function handleOperator(e){
     
     if(currOperator==="="){
         if(calculator.isPendingSecondNum){
-            if(calculateTotal("=")==="SUCCESS"){
-                displayOutput(calculator.currNum, "lower");
-            } else {
-                displayOutput("", "upper");
-                displayOutput("ERROR", "lower");
-            }
+            calculateTotal(currOperator);
         } 
     } else {
         calculator.operator = currOperator;
@@ -152,14 +154,7 @@ function handleOperator(e){
             displayOutput(calculator.num1+calculator.operator, "upper"); 
         } else {
             if(calculator.isPendingSecondNum){
-                if(calculateTotal(currOperator)==="SUCCESS"){
-                    displayOutput(calculator.num1+calculator.operator, "upper"); 
-                    displayOutput(calculator.num1, "lower");
-                } else {
-                    displayOutput("", "upper");
-                    displayOutput("ERROR", "lower");
-                }
-               
+                calculateTotal(currOperator);
             } else {
                 calculator.num1 = calculator.currNum;
                 calculator.isPendingSecondNum = true;
@@ -167,8 +162,7 @@ function handleOperator(e){
             }
             calculator.currNum = "";
         }
-    }                                             
-    
+    }                                                
 }
 
 function storeNumber(e){
@@ -182,12 +176,7 @@ function storeNumber(e){
 }
 
 function resetValues(){
-    calculator = {
-        num1: null,
-        currNum: "0",
-        operator: "",
-        isPendingSecondNum: false
-    }
+    setCalc(null, "0", "", false);
 }
 
 function removeLastDigit() {
