@@ -192,20 +192,29 @@ function removeLastDigit() {
     }
 }
 
+function getLastChar(str) {
+    const strLength = str.length;
+    
+    return str.charAt(strLength-1);
+}
+
 function deleteCurrNumber(){
     const currOutput = getCurrentOutput();
     const currOutputLength = currOutput.length;
     const lastChar = currOutput.charAt(currOutputLength-1);
 
-    if((!isNaN(lastChar) || lastChar==".")) {
-        if(!calculator.isPendingSecondNum){
-            removeLastDigit(); 
-        } else if(calculator.isPendingSecondNum) {
-            removeLastDigit();
+    if(getLastChar(getUpperOutput())==="="){
+        displayOutput("", "upper");
+    } else {
+        if((!isNaN(lastChar) || lastChar==".")) {
+            if(!calculator.isPendingSecondNum){
+                removeLastDigit(); 
+            } else if(calculator.isPendingSecondNum) {
+                removeLastDigit();
+            }
+            displayOutput(calculator.currNum, "lower");
         }
-        displayOutput(calculator.currNum, "lower");
     }
-    
 }
 
 function clickBtns() {
