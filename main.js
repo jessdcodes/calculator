@@ -28,6 +28,10 @@ function operate(operator, num1, num2){
     num1 = parseFloat(num1);
     num2 = parseFloat(num2);
 
+    if(operator==="÷" && num2==0){
+        return "ERROR";
+    }
+
     switch(operator) {
         case "+":
             return add(num1,num2); 
@@ -38,33 +42,44 @@ function operate(operator, num1, num2){
         case "÷":
             return divide(num1,num2);
     }
-
+    
 }
 
-function calculateTotalForEqual(){
-    if(calculator.currNum==="") {
-        calculator.currNum = calculator.num1;
-    }
+function getTotal(){
+    const total = operate(calculator.operator, calculator.num1, calculator.currNum);
 
-    let total = operate(calculator.operator, calculator.num1, calculator.currNum);
-    displayOutput(calculator.num1+calculator.operator+calculator.currNum+"=", "upper");
-    total = Number((total).toFixed(10));
-    calculator = {
-        num1: total,
-        currNum: total.toString(),
-        operator: "",
-        isPendingSecondNum: false
-    }
+    return total;
 }
 
-function calculateTotalForOperator(){
-    let total = operate(calculator.operator, calculator.num1, calculator.currNum);
-    total = Number((total).toFixed(10));
+function calculateTotal(operator) {
+    let totalStatus = "ERROR";
+    if(operator==="=") {
+        if(calculator.currNum==="") {
+            calculator.currNum = calculator.num1;
+        } 
+    }
+
+    let total = getTotal();
+    if(total !== "ERROR"){
+        total = Number((total).toFixed(10));
+        if(operator==="="){
+            displayOutput(calculator.num1+calculator.operator+calculator.currNum+"=", "upper");
+            setCalc(total, total.toString(), "", false);
+        } else {
+            setCalc(total, total.toString(), calculator.operator, true);
+        }
+
+        return "SUCCESS";
+    } 
+    return "ERROR";
+}
+
+function setCalc(num1, currNum, operator, isPendingSecondNum) {
     calculator = {
-        num1: total,
-        currNum: total.toString(),
-        operator: calculator.operator,
-        isPendingSecondNum: true
+        num1: num1,
+        currNum: currNum,
+        operator: operator,
+        isPendingSecondNum: isPendingSecondNum
     }
 }
 
@@ -97,7 +112,7 @@ function clearOutput() {
     const upperOutput = document.querySelector(".upper-output");
     const lowerOutput = document.querySelector(".lower-output");
 
-    lowerOutput.textContent = "";
+    lowerOutput.textContent = "0";
     upperOutput.textContent = "";
 }
 
@@ -124,17 +139,27 @@ function handleOperator(e){
     
     if(currOperator==="="){
         if(calculator.isPendingSecondNum){
-            calculateTotalForEqual();
+            if(calculateTotal("=")==="SUCCESS"){
+                displayOutput(calculator.currNum, "lower");
+            } else {
+                displayOutput("", "upper");
+                displayOutput("ERROR", "lower");
+            }
         } 
-        displayOutput(calculator.currNum, "lower");
     } else {
         calculator.operator = currOperator;
         if(isNaN(lastChar) && calculator.currNum===""){
             displayOutput(calculator.num1+calculator.operator, "upper"); 
         } else {
             if(calculator.isPendingSecondNum){
-                calculateTotalForOperator();
-                displayOutput(calculator.num1+calculator.operator, "upper"); 
+                if(calculateTotal(currOperator)==="SUCCESS"){
+                    displayOutput(calculator.num1+calculator.operator, "upper"); 
+                    displayOutput(calculator.num1, "lower");
+                } else {
+                    displayOutput("", "upper");
+                    displayOutput("ERROR", "lower");
+                }
+               
             } else {
                 calculator.num1 = calculator.currNum;
                 calculator.isPendingSecondNum = true;
@@ -157,7 +182,6 @@ function storeNumber(e){
 }
 
 function resetValues(){
-    displayOutput(0);
     calculator = {
         num1: null,
         currNum: "0",
