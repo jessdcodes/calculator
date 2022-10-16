@@ -70,10 +70,8 @@ function displayOutput(text, textLoc) {
 
     
     if(textLoc==="upper") {
-        console.log("upper - inside displayOutput. text: "+text);
         upperOutput.textContent = text;
     } else {
-        console.log("lower - inside displayOutput. text: "+text);
         lowerOutput.textContent = text;
     }
 }
@@ -96,7 +94,7 @@ function clearOutput() {
 function appendDecimal() {
     if(calculator.currNum==="") {
         calculator.currNum = "0.";
-        displayOutput(getCurrentOutput()+calculator.currNum, "lower");
+        displayOutput(calculator.currNum, "lower");
     }else if (((calculator.currNum).indexOf(".") == -1) || calculator.currNum==="0") {
         calculator.currNum = calculator.currNum + ".";
         displayOutput(calculator.currNum, "lower");
@@ -114,13 +112,14 @@ function handleOperator(e){
     const currOutputLength = currOutput.length;
     const lastChar = currOutput.charAt(currOutputLength-1);
     
+    console.log("currop:"+currOperator+" isNan:"+isNaN(lastChar)+" lastChar:"+lastChar);
     if(currOperator==="=" && !isNaN(lastChar)){
         if(calculator.isPendingSecondNum){
             calculateTotalForEqual();
         } 
         displayOutput(calculator.currNum, "lower");
     } else if(currOperator==="=" && isNaN(lastChar)){
-        displayOutput(calculator.num1+calculator.operator); 
+        displayOutput(calculator.num1+calculator.operator,"upper"); 
     } else {
         calculator.operator = currOperator;
         if(isNaN(lastChar)){
@@ -132,7 +131,7 @@ function handleOperator(e){
             } else {
                 calculator.num1 = calculator.currNum;
                 calculator.isPendingSecondNum = true;
-                displayOutput(currOutput+calculator.operator, "upper");
+                displayOutput(calculator.currNum+calculator.operator, "upper");
             }
             calculator.currNum = "";
         }
