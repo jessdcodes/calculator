@@ -42,8 +42,12 @@ function operate(operator, num1, num2){
 }
 
 function calculateTotalForEqual(){
+    if(calculator.currNum==="") {
+        calculator.currNum = calculator.num1;
+    }
+
     let total = operate(calculator.operator, calculator.num1, calculator.currNum);
-    displayOutput(calculator.num1+calculator.operator+calculator.currNum, "upper");
+    displayOutput(calculator.num1+calculator.operator+calculator.currNum+"=", "upper");
     total = Number((total).toFixed(10));
     calculator = {
         num1: total,
@@ -83,6 +87,12 @@ function getCurrentOutput(){
     return upperOutput.textContent+lowerOutput.textContent;
 }
 
+function getUpperOutput(){
+    const upperOutput = document.querySelector(".upper-output");
+    
+    return upperOutput.textContent;
+}
+
 function clearOutput() {
     const upperOutput = document.querySelector(".upper-output");
     const lowerOutput = document.querySelector(".lower-output");
@@ -108,21 +118,18 @@ function getLastChar(str) {
 
 function handleOperator(e){
     const currOperator = this.textContent;
-    const currOutput = getCurrentOutput();
+    const currOutput = getUpperOutput();
     const currOutputLength = currOutput.length;
     const lastChar = currOutput.charAt(currOutputLength-1);
     
-    console.log("currop:"+currOperator+" isNan:"+isNaN(lastChar)+" lastChar:"+lastChar);
-    if(currOperator==="=" && !isNaN(lastChar)){
+    if(currOperator==="="){
         if(calculator.isPendingSecondNum){
             calculateTotalForEqual();
         } 
         displayOutput(calculator.currNum, "lower");
-    } else if(currOperator==="=" && isNaN(lastChar)){
-        displayOutput(calculator.num1+calculator.operator,"upper"); 
     } else {
         calculator.operator = currOperator;
-        if(isNaN(lastChar)){
+        if(isNaN(lastChar) && calculator.currNum===""){
             displayOutput(calculator.num1+calculator.operator, "upper"); 
         } else {
             if(calculator.isPendingSecondNum){
@@ -147,8 +154,6 @@ function storeNumber(e){
         calculator.currNum = calculator.currNum + this.textContent;
         displayOutput(calculator.currNum, "lower");
     }
-    
-   
 }
 
 function resetValues(){
