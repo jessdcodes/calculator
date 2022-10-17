@@ -169,7 +169,13 @@ function handleOperator(e){
 }
 
 function storeNumber(e){
-    if(getLastChar(getCurrentOutput())==='0'){
+    if(getLastChar(getUpperOutput())==="="){
+        clearOutput();
+        resetValues();
+        calculator.currNum = this.textContent;
+        displayOutput(this.textContent, "lower");
+    }
+    else if(getLastChar(getCurrentOutput())==='0'){
         calculator.currNum = this.textContent;
         displayOutput(this.textContent, "lower");
     } else {
@@ -205,6 +211,7 @@ function deleteCurrNumber(){
 
     if(getLastChar(getUpperOutput())==="="){
         displayOutput("", "upper");
+        resetValues();
     } else {
         if((!isNaN(lastChar) || lastChar==".")) {
             if(!calculator.isPendingSecondNum){
