@@ -6,26 +6,26 @@ body {
 
 .main {
     width: 350px;
-    margin: 50px auto;
-    padding: 10px;
-    border-radius: 5px;
+    margin: 80px auto 10px auto;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: white;
 }
 
 .calculator {
     display: grid;
     width: 320px;
-    margin: 20px auto;
+    margin: 5px auto 20px auto;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: minmax(90px, auto) repeat(5, 65px);
+    grid-template-rows: minmax(60px, auto) repeat(5, 65px);
     padding: 0;
     grid-gap: 10px;
 }
 
 .output {
     grid-column: 1 / -1;
-    height: 80px;
     background-color: white;
-    padding: 15px;
+    padding: 0;
     border-radius: 5px;
     text-align: right;
     margin: 0;
@@ -33,7 +33,7 @@ body {
 
 .upper-output {
     font-size: 20px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     min-height: 25px;
 }
 
@@ -56,7 +56,7 @@ button.number, button.decimal {
 
 button.operator {
     background-color: #52734D;
-    box-shadow: 0px 5px #91C788;
+    box-shadow: 0px 5px #385538;
     color: white;
 }
 
@@ -85,4 +85,10 @@ button:hover, button#equal:hover {
     box-shadow: 0px 5px #df2d2d;
     cursor: pointer;
     color: white;
+}
+
+.footer p {
+    margin: 0;
+    text-align: center;
+    font-size: 12px;
 }
