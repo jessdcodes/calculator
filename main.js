@@ -7,6 +7,8 @@ let calculator = {
 
 clickBtns();
 
+window.addEventListener('keydown', pressKey);
+
 function add(num1, num2){
     return num1 + num2;
 }
@@ -239,4 +241,29 @@ function clickBtns() {
     });
     deleteBtn.addEventListener("click", deleteCurrNumber);
     decimalBtn.addEventListener("click", appendDecimal);
+}
+
+function pressKey(e){
+    let button;
+
+    
+    if(e.keyCode!="16") {
+        console.log(e.shiftKey+" "+e.keyCode);
+        if(e.shiftKey && e.keyCode=="56") {
+            button = document.querySelector(`button[data-key="${e.keyCode}"][data-operator]`);
+            button.click();   
+        } else if(e.shiftKey && e.keyCode=="187") {
+            button = document.querySelector(`button[data-key="${e.keyCode}"], #plus`);
+            button.click();  
+        } else if(e.keyCode=="13") {
+            button = document.querySelector(`button[data-key="${e.keyCode}"], #equal`);
+            button.click();  
+        } else {
+            button = document.querySelector(`button[data-key="${e.keyCode}"]`);
+            if(button!=null) {
+                button.click();  
+            }
+        }
+        console.log(button.innerText);
+    }    
 }
