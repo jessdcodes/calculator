@@ -246,24 +246,22 @@ function clickBtns() {
 function pressKey(e){
     let button;
 
-    
+    // ignore when key is shift (16)
     if(e.keyCode!="16") {
-        console.log(e.shiftKey+" "+e.keyCode);
         if(e.shiftKey && e.keyCode=="56") {
-            button = document.querySelector(`button[data-key="${e.keyCode}"][data-operator]`);
-            button.click();   
+            button = document.querySelector(`button[data-key="${e.keyCode}"][data-operator]`);  
         } else if(e.shiftKey && e.keyCode=="187") {
-            button = document.querySelector(`button[data-key="${e.keyCode}"], #plus`);
-            button.click();  
+            button = document.querySelector(`button[data-key="187"][id="plus"]`);
+        } else if(!e.shiftKey && e.keyCode=="187") {
+            button = document.querySelector(`button[data-key="187"][id="equal"]`);
         } else if(e.keyCode=="13") {
-            button = document.querySelector(`button[data-key="${e.keyCode}"], #equal`);
-            button.click();  
+            button = document.querySelector(`button[data-key="${e.keyCode}"], #equal`); 
         } else {
             button = document.querySelector(`button[data-key="${e.keyCode}"]`);
-            if(button!=null) {
-                button.click();  
-            }
         }
-        console.log(button.innerText);
+
+        if(button!=null) {
+            button.click();  
+        }
     }    
 }
